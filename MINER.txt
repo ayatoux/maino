@@ -1,0 +1,45 @@
+-- Create a table to store the CFrame values
+local cframes = {
+    CFrame.new(487.464447, 689.70343, -1869.49182, 0.999997556, -3.883824466e-08, -0.00220046449, 3.87827157e-08, 1, -2.52772203e-08, 0.00220046449, 2.51918202e-08, 0.999997556),
+    CFrame.new(528.425293, 692.258789, -1847.22607, -0.01495481, 6.19218721e-09, 0.999888182, 1.922479732e-09, 1, -6.1641261e-09, -0.999888182, 1.83008142e-09, -0.01495481),
+    CFrame.new(557.506775, 693.881104, -1855.01794, 0.999983907, 1.23817445e-09, -0.00567212235, -1.22557275e-09, 1, 2.22518404e-09, 0.00567212235, -2.218196520e-09, 0.999983907),
+    CFrame.new(510.606537, 691.69397, -1921.28723, 0.0107058408, -9.71665273e-08, -0.99994272, -8.24493274e-09, 1, -9.726036860e-08, 0.99994272, 9.28571442e-09, 0.0107058408),
+    CFrame.new(436.932617, 692.598267, -1911.10461, -0.0262955502, 2.1030008e-08, -0.999654233, -5.29924193e-08, 1, 2.24312302e-08, 0.999654233, 5.35639373e-08, -0.0262955502)
+}
+
+-- Create a local variable to store the current CFrame index
+local currentIndex = 1
+
+-- Create a function to teleport to the next CFrame
+local function teleport()
+    -- Get the current character
+    local character = game.Players.LocalPlayer.Character
+    
+    -- Check if the character exists
+    if character then
+        -- Teleport to the next CFrame
+        character.HumanoidRootPart.CFrame = cframes[currentIndex]
+        
+        -- Fire the MiscTools event
+       local args = {
+    [1] = "Pickaxe"
+}
+
+game:GetService("ReplicatedStorage").Events.MiscTools:FireServer(unpack(args))
+        local args = {
+    [1] = "Roger",
+    [2] = "On it!"
+}
+
+game:GetService("ReplicatedStorage").Events.Dialog:FireServer(unpack(args))
+
+        -- Increment the current index
+        currentIndex = (currentIndex % #cframes) + 1
+    end
+end
+
+-- Loop the teleport function
+while true do
+    teleport()
+    wait(1) -- adjust the wait time as needed
+end
